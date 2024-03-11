@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:13-alpine
+    container_name: postgres_container_v1
+    environment:
+      POSTGRES_USER: akash
+      POSTGRES_PASSWORD: Batman@1994
+      POSTGRES_DB: bajaj-docker
+    ports:
+      - "5433:5432"
+    volumes:
+      - /Users/akashgurnale2/Documents/Docker-Volume:/var/lib/postgresql/data
+  app:
+    build: .
+    image: bajaj-docker-web-app
+    container_name: bajaj-docker-web-app-container-v1
+    ports:
+      - "8082:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/bajaj-docker
+      SPRING_DATASOURCE_USERNAME: akash
+      SPRING_DATASOURCE_PASSWORD: Batman@1994
+    depends_on:
+      - db
+    restart: always
+
